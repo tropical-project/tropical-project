@@ -66,19 +66,19 @@ We conducted performance tests on vllm, Tropical, and DistServe using the LongBe
 
 #### SLO Attainment
 
-![Alt text](docs/interlm_20b/mooncake/slo.jpg)
+![Alt text](docs/interlm_20b/mooncake/slo.png)
 
 #### End-to-End Latency
 
-![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.jpg)
+![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.png)
 
 #### CDF
 
-![Alt text](docs/interlm_20b/mooncake/latency_cdf.jpg)
+![Alt text](docs/interlm_20b/mooncake/latency_cdf.png)
 
 #### Queueing Latency
 
-![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.jpg)
+![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.png)
 
 
 

@@ -54,33 +54,54 @@ ans.json()
 # >>> {'id': 'cmpl-89b6388bdef04d0e9b0b45e271e3bce6', 'object': 'text_completion', 'created': 1729153111, 'model': 'NousResearch/Meta-Llama-3-8B-Instruct', 'choices': [{'index': 0, 'text': ' has something for everyone. From its iconic Golden Gate Bridge to its vibrant cultural attractions', 'logprobs': None, 'finish_reason': 'length', 'stop_reason': None}], 'usage': {'prompt_tokens': 7, 'total_tokens': 23, 'completion_tokens': 16}}
 ```
 
-## 功能汇总
+## Experiment result
+
+我们基于LongBench和Mooncake数据集，测试了vllm，Tropical和DistServe的TTFT，TPOT，JCT等性能指标，以量化分析Tropical的优化。
+
+### LongBench性能分析
+
+| Model            | Dataset    | SKU            | #workers | (TP, PP) |
+|------------------|------------|----------------|----------|----------|
+| Internlm2_5-20b-chat | LongBench  | A100-SXM4-80GB | 2        | (2,1)    |
+
+#### SLO Attainment
+
+![Alt text](docs/interlm_20b/longbench/slo.png)
+
+#### End-to-End Latency
+
+![Alt text](docs/interlm_20b/longbench/latency_avg_p90.png)
+
+#### CDF
+
+![Alt text](docs/interlm_20b/longbench/latency_cdf.png)
+
+#### Queueing Latency
+
+![Alt text](docs/interlm_20b/longbench/queuing_time_p90.png)
+
+### Mooncake性能分析
+
+| Model            | Dataset    | SKU            | #workers | (TP, PP) |
+|------------------|------------|----------------|----------|----------|
+| Internlm2_5-20b-chat | Mooncake  | A100-SXM4-80GB | 2        | (2,1)    |
+
+#### SLO Attainment
+
+![Alt text](docs/interlm_20b/mooncake/slo.jpg)
+
+#### End-to-End Latency
+
+![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.jpg)
+
+#### CDF
+
+![Alt text](docs/interlm_20b/mooncake/latency_cdf.jpg)
+
+#### Queueing Latency
+
+![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.jpg)
 
 
-| 功能点             | 说明                                                       | 状态   |
-| -------------------- | ------------------------------------------------------------ | -------- |
-| Distserve          | Prefill 和 Decoding 分离部署的实现                         | 已实现 |
-| DP                 | Prefill 和 Decoding 采用不同的 DP 维度                     | 已实现 |
-| ipc                | 将 api_server 和 engine 解耦，降低调度开销对 decode 的影响 | 已实现 |
-| Elastic PD         | Prefill Engine, Decode Engine, Hybrid Engine 可以相互转换  | 已实现 |
-| inline-prefill     | Prefill 和 decode 在满足 slo 的条件下 inline 到一起        | 已实现 |
-| Scheduler policy   | Prefill 的不同调度策略 （FCFS，LJF，SJF, EDF）             | 已实现 |
-| Chunked Preemption | Prefill 阶段的预填充块的抢占                               | 已实现 |
-| Edf                | 最接近 deadline 优先调度                                   | 已实现 |
-| Profiler           | 预测一次 Prefill 和 Decode 的执行时间                      | 已实现 |
-| Dist Prefix Cache  | 分布式的 KV-Cache 缓存机制                                 | 未实现 |
-| SP                 | Sequence-Level 的并行策略                                  | 未实现 |
 
-基于 vLLM，如下功能可以支持：
-
-
-| 功能点                             | 说明                                                                     |
-| ------------------------------------ | -------------------------------------------------------------------------- |
-| PagedAttention                     | KV-Cache 的页表机制                                                      |
-| TP                                 | 张量并行                                                                 |
-| PP                                 | 流水线并行                                                               |
-| Continuous Batching                | Token 级别的批处理                                                       |
-| Chunked Prefill                    | Prefill 的切块                                                           |
-| Auto Prefix-Cache                  | 自动的前缀 KV-Cache 缓存                                                 |
-| Recompute Preemption               | 重计算抢占                                                               |
-| Monitoring and Observability Tools | 云原生可监控，可观察工具（grafana，prometheus，jaeger， open-telemetry） |
+## Algorithm

@@ -60,6 +60,27 @@ We conducted performance tests on vllm, Tropical, and DistServe using the LongBe
 
 ### Performance Comparison
 
+| Model            | Dataset    | SKU            | #workers | (TP, PP) |
+|------------------|------------|----------------|----------|----------|
+| Internlm2_5-20b-chat | Mooncake  | A100-SXM4-80GB | 2        | (2,1)    |
+
+#### SLO Attainment
+
+![Alt text](docs/interlm_20b/mooncake/slo.jpg)
+
+#### End-to-End Latency
+
+![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.jpg)
+
+#### CDF
+
+![Alt text](docs/interlm_20b/mooncake/latency_cdf.jpg)
+
+#### Queueing Latency
+
+![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.jpg)
+
+
 
 | Model            | Dataset    | SKU            | #workers | (TP, PP) |
 |------------------|------------|----------------|----------|----------|
@@ -80,27 +101,6 @@ We conducted performance tests on vllm, Tropical, and DistServe using the LongBe
 #### Queueing Latency
 
 ![Alt text](docs/interlm_20b/longbench/queuing_time_p90.png)
-
-
-| Model            | Dataset    | SKU            | #workers | (TP, PP) |
-|------------------|------------|----------------|----------|----------|
-| Internlm2_5-20b-chat | Mooncake  | A100-SXM4-80GB | 2        | (2,1)    |
-
-#### SLO Attainment
-
-![Alt text](docs/interlm_20b/mooncake/slo.jpg)
-
-#### End-to-End Latency
-
-![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.jpg)
-
-#### CDF
-
-![Alt text](docs/interlm_20b/mooncake/latency_cdf.jpg)
-
-#### Queueing Latency
-
-![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.jpg)
 
 
 

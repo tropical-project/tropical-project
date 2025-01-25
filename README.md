@@ -2,6 +2,15 @@
 
 ![sgir-distserve design](docs/imgs/DistServeDesign.png)
 
+Our system is primarily divided into three parts: Prefill Engines (Prefill Workers in Tropical), Decode Engines (Multiplexing Workers in Tropical), and Engine IPC Client (Multiplexing Toggle in Tropical).
+
+All Engines can perform both Prefill and decode operations, depending on the scheduling strategy of the IPC Client. This means that Prefill and Decode Engines can switch roles on the fly. In particular, Decode Engines can take on Prefill operations. We found that through SLO-Aware Multiplexing, we can significantly reduce Prefill queuing time without changing the Decode role (swap, migration, or flushing computation KVCache). SLO-Aware Multiplexing intelligently selects whether to route Prefill requests to Prefill Engines or Decode Engines.
+
+To ensure the scalability of the system, we use a decentralized scheduling approach, meaning all Engines operate asynchronously. We found that using Python coroutines for Engine event management incurs significant overhead, so Engines and IPC Client use ZeroMQ for inter-process communication. IPC is used for control flow communication in KVCache transfer and monitoring the status of Engines (queuing situation, memory usage, execution time of the current batch). In practice, when the number of Workers is relatively small (4 workers in Tropical), the scheduling overhead is negligible.
+
+Tropical's allocation of instances is relatively flexible, allowing all Engines to use independent parallelism configurations.
+
+
 ## Installation
 
 ```bash

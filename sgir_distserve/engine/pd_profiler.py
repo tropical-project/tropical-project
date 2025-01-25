@@ -22,12 +22,16 @@ class PDProfiler:
         self.model = model
         self.tp = tp
         self.pp = pp
-        self.chunk = chunk
+        self.chunk = 2048
         self.indb = True
-        self.chunk_size = chunk
+        self.chunk_size = 2048
         prefill_config = query_prefill_profiler(model, tp, pp, chunk)
         decode_config = query_decode_profiler(model, tp, pp)
         chunk_config = query_chunk_profiler(model, tp, pp, chunk)
+
+        print(
+            f"model: {model}, tp: {tp}, pp: {pp}, chunk: {self.chun}, prefill_config: {prefill_config} ******************"
+        )
 
         if (not prefill_config) or (not decode_config):
             self.indb = False

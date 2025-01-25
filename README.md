@@ -78,7 +78,7 @@ We conducted performance tests on vllm, Tropical, and DistServe using the LongBe
 
 | Model                | Dataset    | SKU               | #workers | (TP, PP) | TTFT SLO | TPOT SLO |
 |----------------------|------------|-------------------|----------|----------|----------|----------|
-|    Llama-2-70b-hf    |  Longbench  | A100-SXM4-80GB   | 2        | (2,1)    |    5x    |   100ms  |
+|    Llama-2-70b-hf    |  Longbench  | A100-SXM4-80GB   | 2        | (4,1)    |    5x    |   100ms  |
 
 #### SLO Attainment
 ![Alt text](docs/llama_2_70b_hf/longbench/slo.png)

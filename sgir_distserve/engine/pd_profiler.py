@@ -15,7 +15,7 @@ class PDProfiler:
     def __init__(
         self,
         model: str = "NousResearch/Meta-Llama-3-8B-Instruct",
-        tp: int = 2,
+        tp: int = 4,
         pp=1,
         chunk=4096,
     ):

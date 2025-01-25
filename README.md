@@ -60,48 +60,51 @@ We conducted performance tests on vllm, Tropical, and DistServe using the LongBe
 
 ### Performance Comparison
 
-| Model            | Dataset    | SKU            | #workers | (TP, PP) |
-|------------------|------------|----------------|----------|----------|
-| Internlm2_5-20b-chat | Mooncake  | A100-SXM4-80GB | 2        | (2,1)    |
+| Model                | Dataset    | SKU               | #workers | (TP, PP) | TTFT SLO | TPOT SLO |
+|----------------------|------------|-------------------|----------|----------|----------|----------|
+| Internlm2_5-20b-chat |  Mooncake  | A100-SXM4-80GB    | 2        | (2,1)    |    5x    |   100ms  |
 
 #### SLO Attainment
-
 ![Alt text](docs/interlm_20b/mooncake/slo.png)
 
 #### End-to-End Latency
-
 ![Alt text](docs/interlm_20b/mooncake/latency_avg_p90.png)
 
 #### CDF
-
 ![Alt text](docs/interlm_20b/mooncake/latency_cdf.png)
 
 #### Queueing Latency
-
 ![Alt text](docs/interlm_20b/mooncake/queuing_time_p90.png)
 
-
-
-| Model            | Dataset    | SKU            | #workers | (TP, PP) |
-|------------------|------------|----------------|----------|----------|
-| Internlm2_5-20b-chat | LongBench  | A100-SXM4-80GB | 2        | (2,1)    |
+| Model                | Dataset    | SKU               | #workers | (TP, PP) | TTFT SLO | TPOT SLO |
+|----------------------|------------|-------------------|----------|----------|----------|----------|
+|    Llama-2-70b-hf    |  Longbench  | A100-SXM4-80GB   | 2        | (2,1)    |    5x    |   100ms  |
 
 #### SLO Attainment
+![Alt text](docs/llama_2_70b_hf/longbench/slo.png)
 
+#### End-to-End Latency
+![Alt text](docs/llama_2_70b_hf/longbench/latency_avg_p90.png)
+
+#### CDF
+![Alt text](docs/llama_2_70b_hf/longbench/latency_cdf.png)
+
+#### Queueing Latency
+![Alt text](docs/llama_2_70b_hf/longbench/queuing_time_p90.png)
+
+| Model                | Dataset    | SKU               | #workers | (TP, PP) | TTFT SLO | TPOT SLO |
+|----------------------|------------|-------------------|----------|----------|----------|----------|
+| Internlm2_5-20b-chat |  Longbench  | A100-SXM4-80GB   | 2        | (2,1)    |    5x    |   100ms  |
+
+#### SLO Attainment
 ![Alt text](docs/interlm_20b/longbench/slo.png)
 
 #### End-to-End Latency
-
 ![Alt text](docs/interlm_20b/longbench/latency_avg_p90.png)
 
 #### CDF
-
 ![Alt text](docs/interlm_20b/longbench/latency_cdf.png)
 
 #### Queueing Latency
-
 ![Alt text](docs/interlm_20b/longbench/queuing_time_p90.png)
 
-
-
-## Algorithm

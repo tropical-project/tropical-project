@@ -4,11 +4,13 @@
 
 Our system is primarily divided into three parts: Prefill Engines (Prefill Workers in Tropical), Decode Engines (Multiplexing Workers in Tropical), and Engine IPC Client (Multiplexing Toggle in Tropical).
 
+Engines are virtually divided by Prefill and Decode. As a result, all Engines can perform both Prefill and decode executions, depending on the scheduling strategy of the IPC Client. This means that Prefill and Decode Engines can switch roles on the fly. In particular, Decode Engines can take on Prefill operations. We found that through SLO-Aware Multiplexing, we can significantly reduce Prefill queuing time without changing the Decode role (swap, migration, or flushing computation KVCache). SLO-Aware Multiplexing intelligently selects whether to route Prefill requests to Prefill Engines or Decode Engines.
+
 To ensure the scalability of the system, we use a decentralized scheduling approach, meaning all Engines operate asynchronously. We found that using Python coroutines for Engine event management incurs significant overhead, so Engines and the IPC Client use ZeroMQ for inter-process communication. IPC is used for control flow communication in KVCache transfer and monitoring the status of Engines (queuing situation, memory usage, execution time of the current batch). In practice, when the number of Workers is relatively small (4 Workers in Tropical), the scheduling overhead is negligible.
 
 Tropical's allocation of instances is relatively flexible, allowing all Engines to use independent parallelism configurations.
 
-All Engines can perform both Prefill and decode operations, depending on the scheduling strategy of the IPC Client. This means that Prefill and Decode Engines can switch roles on the fly. In particular, Decode Engines can take on Prefill operations. We found that through SLO-Aware Multiplexing, we can significantly reduce Prefill queuing time without changing the Decode role (swap, migration, or flushing computation KVCache). SLO-Aware Multiplexing intelligently selects whether to route Prefill requests to Prefill Engines or Decode Engines.
+All load balancing strategies (Round-Robin Cache-Aware, INFaaS) are applicable to SLO-Aware Multiplexing. Different Engine queue scheduling policies can also be adapted to SLO-Aware Multiplexing. To ensure that both the baseline and Tropical achieve the best latency performance and maintain fairness, both use the INFaaS approach, which dispatches requests to the Engine with the lowest currently executing tokens. Prefill Engines use a Short Job First scheduling strategy, while Decode Engines execute by default in batches.
 
 ## Installation
 

@@ -13,7 +13,7 @@ To ensure the scalability of the system, we use a decentralized scheduling appro
 Tropical's allocation of instances is relatively flexible, allowing all Engines to use independent parallelism configurations.
 
 ## Routing Policy
-
+![Routing Policy](docs/imgs/Monitor.png)
 
 ## Installation
 

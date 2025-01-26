@@ -22,9 +22,9 @@ class PDProfiler:
         self.model = model
         self.tp = tp
         self.pp = pp
-        self.chunk = 2048
+        self.chunk = chunk
         self.indb = True
-        self.chunk_size = 2048
+        self.chunk_size = chunk
         prefill_config = query_prefill_profiler(model, tp, pp, chunk)
         decode_config = query_decode_profiler(model, tp, pp)
         chunk_config = query_chunk_profiler(model, tp, pp, chunk)

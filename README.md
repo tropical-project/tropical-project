@@ -15,6 +15,18 @@ Tropical's allocation of instances is relatively flexible, allowing all Engines 
 ## Routing Policy
 ![Routing Policy](docs/imgs/Monitor.png)
 
+We have implemented a simple yet efficient SLO-Aware Multiplexing routing policy. It mainly consists of two parts, the dispatcher and the monitor. The monitor keeps track of the engine's status, including the predicted execution time of Prefill, the state of the Prefill Engine, the memory watermark of the Decode Engine, and the Slack budget of the Decode requests being executed in the Decode Engine. To make the execution time of Prefill highly predictable, we set the batch size of the Prefill engine to 1. As illustrated in the figure below, DNN inference time is highly predictable.
+
+
+The Dispatcher will complete the distribution of Prefill based on the information from the Monitor.
+
+Intelligently routing Prefill to the most competent Engine to balance the system's queuing time and TPOT is challenging because both of these metrics are key in LLM serving. The newly added Prefill will inevitably affect the performance of the Reqs that are being executed or waiting in the Engine. Our algorithm is as follows:
+1. Schedule the request to the Prefill Engine with the status of State.IDLE as the highest priority.
+2. If the Prefill Engine's status is Running, and there is no Prefill Request waiting, and Monitor.PredExeEndTime plus the execution time of the current Prefill is less than the time required to meet the SLO needs, then schedule the Prefill to that Engine.
+3. If the Monitor.watermark has not reached the threshold, and the Slack budget of all decode requests is greater than the execution time of Prefill, then schedule the Prefill to the Decode Engine.
+4. If none of 1, 2, or 3 are met, then the Prefill Request will wait in the Dispatcher until any of 1, 2, or 3 are met or until a timeout occurs, after which it will be rejected.
+
+
 ## Installation
 
 ```bash
